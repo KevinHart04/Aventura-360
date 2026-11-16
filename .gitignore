@@ -1,0 +1,39 @@
+# Entornos y secretos
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+*.egg-info/
+backend/staticfiles/
+backend/media/
+
+# Node
+node_modules/
+frontend/dist/
+frontend/coverage/
+frontend/playwright-report/
+frontend/test-results/
+.stryker-tmp/
+reports/
+
+# Base de datos local
+*.sqlite3
+pgdata/
+
+# Editores / SO
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.DS_Store
+Thumbs.db
