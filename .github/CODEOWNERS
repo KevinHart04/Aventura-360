@@ -1,0 +1,29 @@
+# Por defecto y para todo lo sensible: cualquiera de los 3 (menos el autor) aprueba.
+*                                   @KevinHart04 @Chate19 @Jenaro112
+
+# ---- Configuración de calidad y CI ----
+/.github/                           @KevinHart04 @Chate19 @Jenaro112
+/.pre-commit-config.yaml            @KevinHart04 @Chate19 @Jenaro112
+/scripts/                           @KevinHart04 @Chate19 @Jenaro112
+/docker-compose.yml                 @KevinHart04 @Chate19 @Jenaro112
+/frontend/eslint.config.js          @KevinHart04 @Chate19 @Jenaro112
+/frontend/tsconfig*.json            @KevinHart04 @Chate19 @Jenaro112
+/frontend/vite.config.ts            @KevinHart04 @Chate19 @Jenaro112
+/frontend/playwright.config.ts      @KevinHart04 @Chate19 @Jenaro112
+/frontend/knip.json                 @KevinHart04 @Chate19 @Jenaro112
+/backend/pyproject.toml             @KevinHart04 @Chate19 @Jenaro112
+
+# ---- Dependencias ----
+/frontend/package.json              @KevinHart04 @Chate19 @Jenaro112
+/frontend/package-lock.json         @KevinHart04 @Chate19 @Jenaro112
+/backend/uv.lock                    @KevinHart04 @Chate19 @Jenaro112
+
+# ---- Seguridad, datos y dinero ----
+/backend/config/settings.py         @KevinHart04 @Chate19 @Jenaro112
+/backend/**/migrations/             @KevinHart04 @Chate19 @Jenaro112
+/backend/**/permissions.py          @KevinHart04 @Chate19 @Jenaro112
+/backend/**/auth/                   @KevinHart04 @Chate19 @Jenaro112
+/backend/**/payments/               @KevinHart04 @Chate19 @Jenaro112
+/backend/**/checkout/               @KevinHart04 @Chate19 @Jenaro112
+/backend/**/pricing/                @KevinHart04 @Chate19 @Jenaro112
+/frontend/src/**/checkout/          @KevinHart04 @Chate19 @Jenaro112
