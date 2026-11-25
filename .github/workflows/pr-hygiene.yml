@@ -1,0 +1,72 @@
+name: PR Hygiene
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, edited, synchronize, reopened]
+
+concurrency:
+  group: pr-hygiene-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  pr-title:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      pull-requests: read
+    steps:
+      - uses: amannn/action-semantic-pull-request@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          types: |
+            feat
+            fix
+            chore
+            docs
+            refactor
+            test
+            ci
+            perf
+            build
+          requireScope: false
+
+  pr-size:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Límite de tamaño
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          MAX_LINES: "500"
+        run: |
+          CHANGED=$(git diff --numstat "$BASE_SHA" "$HEAD_SHA" \
+            -- . \
+            ':(exclude)*package-lock.json' \
+            ':(exclude)*uv.lock' \
+            ':(exclude)*/migrations/*' \
+            | awk '$1 != "-" { total += $1 + $2 } END { print total + 0 }')
+          echo "Líneas cambiadas (sin lockfiles ni migraciones): $CHANGED"
+          if [ "$CHANGED" -gt "$MAX_LINES" ]; then
+            echo "::error::El PR cambia $CHANGED líneas (máximo $MAX_LINES). Divídelo en PRs más pequeños."
+            exit 1
+          fi
+
+  dependency-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: high
