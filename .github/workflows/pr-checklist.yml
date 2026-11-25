@@ -1,0 +1,51 @@
+name: PR Checklist
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, edited, synchronize, reopened]
+
+concurrency:
+  group: pr-checklist-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  pr-checklist:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Verificar checklist del autor
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: |
+          python3 - <<'PY'
+          import os
+          import re
+          import sys
+
+          body = os.environ.get("PR_BODY") or ""
+
+          match = re.search(
+              r"## Checklist del autor.*?\n(.*?)(?=\n## |\Z)", body, re.DOTALL
+          )
+          if not match:
+              print("::error::Falta la sección '## Checklist del autor' en la descripción del PR.")
+              sys.exit(1)
+
+          items = re.findall(r"^\s*- \[( |x|X)\] (.+)$", match.group(1), re.MULTILINE)
+          if not items:
+              print("::error::La sección del checklist del autor no tiene casillas.")
+              sys.exit(1)
+
+          pending = [text for mark, text in items if mark == " "]
+          if pending:
+              print("::error::Checklist del autor incompleto. Faltan:")
+              for text in pending:
+                  print(f"::error:: - {text}")
+              sys.exit(1)
+
+          print(f"OK: {len(items)} casillas del autor marcadas.")
+          PY
