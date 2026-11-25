@@ -16,6 +16,7 @@ permissions:
 env:
   DJANGO_SECRET_KEY: ci-only-not-a-secret
   DJANGO_DEBUG: "false"
+  DJANGO_ALLOWED_HOSTS: "localhost,127.0.0.1"
   POSTGRES_DB: ecommerce
   POSTGRES_USER: ecommerce
   POSTGRES_PASSWORD: ecommerce
