@@ -19,6 +19,7 @@ dev = [
     "pytest>=9.2.0",
     "pytest-django>=4.14.0",
     "ruff>=0.17.6",
+    "vulture>=2.16",
 ]
 
 [tool.pytest.ini_options]
@@ -59,3 +60,8 @@ ignore_missing_imports = true
 [tool.ruff.lint.per-file-ignores]
 "**/tests/**" = ["S101", "PLR2004"]
 "manage.py" = ["PLC0415"]
+
+[tool.vulture]
+paths = ["."]
+exclude = [".venv/", "migrations/"]
+min_confidence = 80
