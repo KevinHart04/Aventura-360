@@ -12,7 +12,8 @@
 /frontend/playwright.config.ts      @KevinHart04 @Chate19 @Jenaro112
 /frontend/knip.json                 @KevinHart04 @Chate19 @Jenaro112
 /backend/pyproject.toml             @KevinHart04 @Chate19 @Jenaro112
-
+/AGENTS.md                          @KevinHart04 @Chate19 @Jenaro112
+/CLAUDE.md                          @KevinHart04 @Chate19 @Jenaro112
 # ---- Dependencias ----
 /frontend/package.json              @KevinHart04 @Chate19 @Jenaro112
 /frontend/package-lock.json         @KevinHart04 @Chate19 @Jenaro112
