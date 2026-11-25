@@ -1,0 +1,70 @@
+default_install_hook_types: [pre-commit, commit-msg, pre-push]
+
+repos:
+  - repo: local
+    hooks:
+      # ---------- Al hacer commit (rápido) ----------
+      - id: no-bypass
+        name: anti-bypass (sin noqa / eslint-disable / ts-ignore)
+        entry: ./scripts/check-no-bypass.sh
+        language: system
+        pass_filenames: false
+        always_run: true
+
+      - id: ruff-format
+        name: ruff format
+        entry: bash -c 'cd backend && uv run ruff format .'
+        language: system
+        pass_filenames: false
+        files: ^backend/.*\.py$
+
+      - id: ruff-check
+        name: ruff check
+        entry: bash -c 'cd backend && uv run ruff check .'
+        language: system
+        pass_filenames: false
+        files: ^backend/.*\.py$
+
+      - id: prettier
+        name: prettier (frontend)
+        entry: bash -c 'cd frontend && npx prettier --check .'
+        language: system
+        pass_filenames: false
+        files: ^frontend/
+
+      - id: eslint
+        name: eslint (frontend)
+        entry: bash -c 'cd frontend && npm run lint'
+        language: system
+        pass_filenames: false
+        files: ^frontend/.*\.(ts|tsx|js)$
+
+      # ---------- Mensaje del commit ----------
+      - id: commitlint
+        name: commitlint (Conventional Commits)
+        entry: bash -c 'cd frontend && npx commitlint --edit "$(git rev-parse --show-toplevel)/$1"' --
+        language: system
+        stages: [commit-msg]
+        always_run: true
+
+      # ---------- Al hacer push (más lento) ----------
+      - id: mypy
+        name: mypy strict
+        entry: bash -c 'cd backend && uv run mypy .'
+        language: system
+        pass_filenames: false
+        stages: [pre-push]
+
+      - id: tsc
+        name: typecheck (frontend)
+        entry: bash -c 'cd frontend && npm run typecheck'
+        language: system
+        pass_filenames: false
+        stages: [pre-push]
+
+      - id: vitest
+        name: vitest
+        entry: bash -c 'cd frontend && npm test'
+        language: system
+        pass_filenames: false
+        stages: [pre-push]

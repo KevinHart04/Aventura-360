@@ -9,8 +9,12 @@ export default function App() {
 
   useEffect(() => {
     fetch(`${API_URL}/health/`)
-      .then((res) => setStatus(res.ok ? "ok" : "error"))
-      .catch(() => setStatus("error"));
+      .then((res) => {
+        setStatus(res.ok ? "ok" : "error");
+      })
+      .catch(() => {
+        setStatus("error");
+      });
   }, []);
 
   return (
